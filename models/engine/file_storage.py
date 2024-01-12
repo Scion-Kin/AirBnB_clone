@@ -1,25 +1,38 @@
 #!/usr/bin/python3
-""" This class will be used for computing file storage """
+''' This class will be used for computing file storage '''
 import json
 
 
 class FileStorage:
-    __file_path = ''
+    __file_path = 'file.json'
     __objects = {}
-    def __init__(self):
-        pass
 
     def all(self):
-        return self.__class.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
-        self.__class__.__objects.append(obj)
+        name = "{}.{}".format(obj.__class__.__name__, obj.id)
+        self.__objects[name] = obj
+        return self.__objects
 
     def save(self):
-        with open(self.__class__.__file_path, mode="w") as f:
-            json.dumps(f, self.__class__.__objects)
+        with open(FileStorage.__file_path, 'w') as f:
+            r_dict = {}
+            r_dict.update(FileStorage.__objects)
+            for key, value in r_dict.items():
+                r_dict[key] = value if isinstance(value, dict) else value.to_dict()
+            json.dump(r_dict, f)
 
     def reload(self):
-        if self.__class__.__file_path is not None:
-            with open(self.__class__.__file_path, mode="r") as f:
-                json.loads(f, self.__class__.__objects)
+        from models.base_model import BaseModel
+        classes = {
+                    'BaseModel': BaseModel
+                  }
+        try:
+            r_dict = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                r_dict = json.load(f)
+                for key, value in r_dict.items():
+                        self.all()[key] = classes[value['__class__']](**value)
+        except FileNotFoundError:
+            pass

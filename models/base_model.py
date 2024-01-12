@@ -1,31 +1,46 @@
 #!/usr/bin/python3
 """ This is the base model of future classes. They will inherit from this"""
 import uuid
-import datetime
-from engine.file_storage import storage
+from datetime import datetime
 
 
 class BaseModel:
+    ''' This is the base class for all others in this project '''
+
     def __init__(self, *args, **kwargs):
-        self.id = kwargs.get("id", str(uuid.uuid4()))
-        created_at_value = kwargs.get("created_at")
-        self.created_at = (datetime.datetime.strptime(created_at_value,
-                           "%Y-%m-%dT%H:%M:%S.%f") if created_at_value
-                           else datetime.datetime.now().isoformat())
-        updated_at_value = kwargs.get("updated_at")
-        self.updated_at = (datetime.datetime.strptime(updated_at_value,
-                           "%Y-%m-%dT%H:%M:%S.%f") if updated_at_value
-                           else datetime.datetime.now().isoformat())
-        if self.__name__ not in self.__dict__: # if the instance is new and not from a dictionary representation
+        ''' Initiates a new instance of the this class '''
+
+        if not kwargs:
+            # If the instance is new and not from a dictionary representation
+            from models import storage
+
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             storage.new(self)
+
+        else:
+            kwargs['created_at'] = (datetime.strptime(kwargs['created_at'],
+                                    "%Y-%m-%dT%H:%M:%S.%f") if
+                                    kwargs['created_at'] else datetime.now())
+            kwargs['updated_at'] = (datetime.strptime(kwargs['updated_at'],
+                                    "%Y-%m-%dT%H:%M:%S.%f") if
+                                    kwargs['updated_at'] else datetime.now())
+            del kwargs['__class__']
+            self.__dict__.update(kwargs)
 
     def __str__(self):
         return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
-        self.updated_at = datetime.datetime.now().isoformat()
+        from models import storage
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
-        vars(self)['__class__'] = self.__class__.__name__
-        return vars(self)
+        r_dict = {}
+        r_dict.update(self.__dict__)
+        r_dict['__class__'] = self.__class__.__name__
+        r_dict['created_at'] = self.created_at.isoformat()
+        r_dict['updated_at'] = self.updated_at.isoformat()
+        return r_dict
