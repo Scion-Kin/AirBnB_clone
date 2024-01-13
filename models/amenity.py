@@ -3,6 +3,6 @@
 from base_model import BaseModel
 
 
-class amenity(BaseModel):
+class Amenity(BaseModel):
     ''' Class definition of amenities '''
     name = ''

@@ -3,7 +3,7 @@
 from base_model import BaseModel
 
 
-class review(BaseModel):
+class Review(BaseModel):
     ''' class definition of reviews '''
     place_id = ''
     user_id = ''

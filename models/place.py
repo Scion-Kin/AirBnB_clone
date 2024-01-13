@@ -3,9 +3,9 @@
 from base_model import BaseModel
 
 
-class review(BaseModel):
+class Place(BaseModel):
     ''' class definition of places '''
-    
+
     city_id = ''
     user_id = ''
     name = ''

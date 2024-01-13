@@ -3,5 +3,5 @@
 from base_model import BaseModel
 
 
-class state(BaseModel):
+class State(BaseModel):
     name = ''

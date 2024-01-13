@@ -25,8 +25,19 @@ class FileStorage:
 
     def reload(self):
         from models.base_model import BaseModel
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+
         classes = {
-                    'BaseModel': BaseModel
+                    'BaseModel': BaseModel,
+                    'Amenity': Amenity,
+                    'City': City,
+                    'Place': Place,
+                    'Review': Review,
+                    'State': State
                   }
         try:
             r_dict = {}
