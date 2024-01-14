@@ -2,6 +2,7 @@
 ''' A custom commnand-line prompt handler '''
 import cmd
 
+
 class HBNBCommand(cmd.Cmd):
     ''' custom command-line prompt handler based on cmd module '''
 
