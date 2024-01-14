@@ -36,6 +36,7 @@ class FileStorage:
         from models.place import Place
         from models.review import Review
         from models.state import State
+        from models.user import User
 
         classes = {
                     'BaseModel': BaseModel,
@@ -43,7 +44,8 @@ class FileStorage:
                     'City': City,
                     'Place': Place,
                     'Review': Review,
-                    'State': State
+                    'State': State,
+                    'User': User
                   }
         try:
             r_dict = {}
