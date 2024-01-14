@@ -30,14 +30,20 @@ class BaseModel:
             self.__dict__.update(kwargs)
 
     def __str__(self):
+        ''' returns a string representation of a class or class instance '''
+
         return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
+        ''' saves info of a class instance '''
+
         from models import storage
         self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
+        ''' returns a dictionary representation of a class '''
+
         r_dict = {}
         r_dict.update(self.__dict__)
         r_dict['__class__'] = self.__class__.__name__
