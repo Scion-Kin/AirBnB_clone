@@ -32,7 +32,7 @@ class BaseModel:
     def __str__(self):
         ''' returns a string representation of a class or class instance '''
 
-        return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
+        return ("[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__))
 
     def save(self):
         ''' saves info of a class instance '''

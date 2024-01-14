@@ -9,12 +9,14 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from models.user import User
+
 
 class HBNBCommand(cmd.Cmd):
     ''' custom command-line prompt handler based on cmd module '''
 
     classes = {
-               'BaseModel': BaseModel, 'Place': Place,
+               'BaseModel': BaseModel, 'Place': Place, 'User': User,
                'State': State, 'City': City, 'Amenity': Amenity,
                'Review': Review
               }
@@ -36,6 +38,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         ''' Creates a new BaseModel instance and saves it to a file'''
+
         if args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -48,6 +51,31 @@ class HBNBCommand(cmd.Cmd):
             new = HBNBCommand.classes[args]()
             storage.save()
             print(new.id)
+
+    def do_show(self, args):
+        ''' prints the string representation of a class instance '''
+
+        if not args:
+            print("** class name is missing **")
+            return
+        
+        arguments = args.split(' ')
+        arg1 = arguments[0]
+        if arg1 not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(arguments) >= 2:
+            arg2 = arguments[1]
+        else:
+            print("** instance id missing **")
+            return
+
+        clss = arg1 + '.' + arg2
+        try:
+            print(storage._FileStorage__objects[clss])
+        except KeyError:
+            print("** no instance found **")
 
 
 if __name__ == '__main__':
