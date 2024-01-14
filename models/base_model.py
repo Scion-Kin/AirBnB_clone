@@ -2,6 +2,7 @@
 """ This is the base model of future classes. They will inherit from this"""
 import uuid
 from datetime import datetime
+# from . import storage
 
 
 class BaseModel:
@@ -12,12 +13,11 @@ class BaseModel:
 
         if not kwargs:
             # If the instance is new and not from a dictionary representation
-            from models import storage
 
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            # storage.new(self)
 
         else:
             kwargs['created_at'] = (datetime.strptime(kwargs['created_at'],
@@ -37,9 +37,8 @@ class BaseModel:
     def save(self):
         ''' saves info of a class instance '''
 
-        from models import storage
         self.updated_at = datetime.now()
-        storage.save()
+        # storage.save()
 
     def to_dict(self):
         ''' returns a dictionary representation of a class '''
