@@ -1,17 +1,9 @@
 #!/usr/bin/python3
 ''' A custom commnand-line prompt handler '''
 import cmd
-import sys
-from models.base_model import BaseModel
-from models.__init__ import storage
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
+    ''' custom command-line prompt handler based on cmd module '''
 
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -34,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    def do_create(self, args):
+    """def do_create(self, args):
         ''' Creates a new BaseModel instance and saves it to a file'''
         if args not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -47,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new = HBNBCommand.classes[args]()
             storage.save()
-            print(new.id)
+            print(new.id)"""
 
 
 if __name__ == '__main__':

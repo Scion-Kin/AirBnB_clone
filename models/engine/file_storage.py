@@ -20,7 +20,8 @@ class FileStorage:
             r_dict = {}
             r_dict.update(FileStorage.__objects)
             for key, value in r_dict.items():
-                r_dict[key] = value if isinstance(value, dict) else value.to_dict()
+                r_dict[key] = value if isinstance(value, dict)\
+                    else value.to_dict()
             json.dump(r_dict, f)
 
     def reload(self):
@@ -44,6 +45,6 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 r_dict = json.load(f)
                 for key, value in r_dict.items():
-                        self.all()[key] = classes[value['__class__']](**value)
+                    self.all()[key] = classes[value['__class__']](**value)
         except FileNotFoundError:
             pass
