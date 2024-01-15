@@ -48,14 +48,12 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Creates a new BaseModel instance and saves it to a file"""
 
-        if args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-
-        elif not args:
+        if not args:
             print("** class name missing **")
             return
-
+        elif args not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
         else:
             new = HBNBCommand.classes[args]()  # create a new instance
             storage.save()
